@@ -1,12 +1,31 @@
 <html>
-  <head>
-    <title>Pitch Stats</title>
-  </head>
-
+<head>
+  <title>Pitch Stats</title>
+</head>
 <body>
   <h1>Trackman Pitch Stats Viewer</h1>
-  Starting date
-  Ending Date
-  <a href="details.html">Pitch 12345</a>
+  
+  <label for="start-date">Starting date:</label>
+  <input type="date" id="start-date" name="start-date"><br>
+
+  <label for="end-date">Ending date:</label>
+  <input type="date" id="end-date" name="end-date"><br>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Speed</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="details.html">Pitch 12345</a></td>
+        <td>95</td>
+        <td>--</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
