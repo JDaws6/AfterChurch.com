@@ -29,15 +29,21 @@
         </tbody>
     </table>
 
-    <script src="script.js"></script>
     <script>
         function filterData(event) {
             event.preventDefault(); // Prevent form submission
             const startDate = document.getElementById('startdate').value;
             const endDate = document.getElementById('enddate').value;
 
+            console.log(`Fetching data for dates: ${startDate} to ${endDate}`); // Debugging message
+
             fetch('https://compute.samford.edu/zohauth/clients/datajson')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     const tableBody = document.getElementById('dataTable').querySelector('tbody');
                     tableBody.innerHTML = ''; // Clear existing rows
@@ -48,19 +54,12 @@
                         return date >= new Date(startDate) && date <= new Date(endDate);
                     });
 
-                    // Populate the table with filtered data
-                    filteredData.forEach(item => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><a href="details.html">Pitch ${item.id}</a></td>
-                            <td>${item.speed}</td>
-                            <td>${item.result}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-    </script>
-</body>
-</html>
+                    if (filteredData.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="3">No data found for this date range.</td></tr>';
+                    } else {
+                        // Populate the table with filtered data
+                        filteredData.forEach(item => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td><a href="details.html">Pitch ${item.id}</a></td>
+                               
